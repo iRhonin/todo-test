@@ -31,6 +31,7 @@ class TodoListCreate(BaseTestClass):
     def test_create_todo(self):
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(201, response.status_code)
+        self.assertEqual(response.data['status'], 'in-progress')
 
     def test_user_todos(self):
         Todo.objects.create(owner=self.user, title='Clean the desktop!')
@@ -66,8 +67,16 @@ class TodoGetUpdateDelete(BaseTestClass):
 
     def test_update_todo(self):
         new_title = 'clean the /tmp!'
-        response = self.client.patch(self.url, {'title': new_title})
+        new_status = 'completed'
+
+        response = self.client.patch(
+            self.url,
+            {'title': new_title, 'status': new_status},
+        )
         self.assertEqual(200, response.status_code)
         self.assertEqual(
             response.data['title'], new_title
+        )
+        self.assertEqual(
+            response.data['status'], new_status
         )

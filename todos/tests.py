@@ -12,17 +12,17 @@ class BaseTestClass(APITestCase):
     url = reverse('todo-list')
 
     def setUp(self):
-        self.username = 'john'
-        self.email = 'john@snow.com'
+        self.username = 'tim'
+        self.email = 'tim@berton.com'
         self.password = 'you_know_nothing'
         self.user = User.objects.create_user(
             self.username, self.email, self.password,
         )
         self.token = Token.objects.create(user=self.user)
-        self.login()
+        self.login(self.token)
 
-    def login(self):
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+    def login(self, token):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
     def logout(self):
         self.client.logout()
@@ -35,9 +35,21 @@ class TodoListCreate(BaseTestClass):
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(201, response.status_code)
         self.assertEqual(response.data['status'], 'in-progress')
+    
         self.logout()
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(401, response.status_code)
+
+        username, email = 'anotherUser', 'anotherEmail@a.com'
+        user = User.objects.create_user(
+            username, email, self.password,
+        )
+        token = Token.objects.create(user=user)
+        self.login(token)
+        response = self.client.get(self.url)
+        self.assertEqual(
+            len(response.data), 0
+        )
 
     def test_user_todos(self):
         Todo.objects.create(owner=self.user, title='Clean the desktop!')
@@ -46,6 +58,7 @@ class TodoListCreate(BaseTestClass):
         self.assertTrue(
             len(response.data) == Todo.objects.count()
         )
+    
 
 
 class TodoGetUpdateDelete(BaseTestClass):

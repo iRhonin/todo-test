@@ -24,6 +24,9 @@ class BaseTestClass(APITestCase):
     def login(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
 
+    def logout(self):
+        self.client.logout()
+
 
 class TodoListCreate(BaseTestClass):
     url = reverse('todo-list')
@@ -32,6 +35,9 @@ class TodoListCreate(BaseTestClass):
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(201, response.status_code)
         self.assertEqual(response.data['status'], 'in-progress')
+        self.logout()
+        response = self.client.post(self.url, {'title': 'Clean the room!'})
+        self.assertEqual(401, response.status_code)
 
     def test_user_todos(self):
         Todo.objects.create(owner=self.user, title='Clean the desktop!')
@@ -57,7 +63,6 @@ class TodoGetUpdateDelete(BaseTestClass):
         self.assertEqual(response.data, expected_todo)
 
     def test_delete_todo(self):
-        todo_id = self.todo.id
         response = self.client.delete(self.url)
         self.assertEqual(204, response.status_code)
         todo_query = Todo.objects.filter(pk=self.todo.id)

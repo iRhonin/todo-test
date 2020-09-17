@@ -35,7 +35,7 @@ class TodoListCreate(BaseTestClass):
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(201, response.status_code)
         self.assertEqual(response.data['status'], 'in-progress')
-    
+
         self.logout()
         response = self.client.post(self.url, {'title': 'Clean the room!'})
         self.assertEqual(401, response.status_code)
@@ -58,7 +58,11 @@ class TodoListCreate(BaseTestClass):
         self.assertTrue(
             len(response.data) == Todo.objects.count()
         )
-    
+
+        response = self.client.get(self.url, {'status': 'completed'})
+        import pudb; pudb.set_trace()
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(len(response.data), 0)
 
 
 class TodoGetUpdateDelete(BaseTestClass):

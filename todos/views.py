@@ -1,5 +1,4 @@
 from rest_framework import viewsets, permissions
-
 from .models import Todo
 from .permissions import IsOwner
 from .serializers import TodoSerializer
@@ -12,6 +11,7 @@ class TodoViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
         IsOwner,
     ]
+    filterset_fields = ('status', )
 
     def get_queryset(self):
         return Todo.objects.filter(owner=self.request.user)

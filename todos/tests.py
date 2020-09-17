@@ -60,7 +60,6 @@ class TodoListCreate(BaseTestClass):
         )
 
         response = self.client.get(self.url, {'status': 'completed'})
-        import pudb; pudb.set_trace()
         self.assertEqual(200, response.status_code)
         self.assertEqual(len(response.data), 0)
 

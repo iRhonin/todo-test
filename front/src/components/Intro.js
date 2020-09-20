@@ -1,31 +1,20 @@
 import React from 'react'
-import { Button, Grid } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
 
-const Intro = () => {
-  return (
-    <Grid
-      container
-      spacing={0}
-      direction='column'
-      alignItems='center'
-      justify='center'
-      style={{ minHeight: '100vh' }}
-    >
-      <Grid item xs={3}>
-        <Link to='/register'>
-          <Button variant='contained' color='primary'>
-            Register
-          </Button>
-        </Link>
-        <Link to='/login'>
-          <Button variant='contained' color='primary'>
-            Login
-          </Button>
-        </Link>
-      </Grid>
-    </Grid>
-  )
+const backgroundImage = '/landing.png'
+
+const styles = (theme) => ({
+  background: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundPosition: 'center',
+    height: '900px',
+  },
+})
+
+function Intro(props) {
+  const { classes } = props
+
+  return <div className={classes.background}></div>
 }
 
-export default Intro
+export default withStyles(styles)(Intro)

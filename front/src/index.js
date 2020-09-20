@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { CssBaseline } from '@material-ui/core'
-import { amber, green } from '@material-ui/core/colors'
+import { amber, deepPurple } from '@material-ui/core/colors'
 
 import './index.css'
 import Routes from './routes'
@@ -22,11 +22,10 @@ const theme = createMuiTheme({
       height: 24,
       padding: '0 30px',
       margin: '20px',
-      // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
   },
   palette: {
-    primary: green,
+    primary: deepPurple,
     secondary: {
       main: '#CFCFC4',
       light: amber[200],

@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
       display: 'flex',
       'text-align-last': 'center',
       width: '80%',
+      'max-width': '320px',
       margin: '60px auto',
     },
   },

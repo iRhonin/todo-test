@@ -20,4 +20,4 @@ class Todo(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['updated']
+        ordering = ['-created']

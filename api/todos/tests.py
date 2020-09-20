@@ -71,13 +71,13 @@ class TodoGetUpdateDelete(BaseTestClass):
             title='Clean the trash!', owner=self.user,
         )
         self.url = reverse("todo-detail", kwargs={"pk": self.todo.pk})
-
+        
     def test_get_todo(self):
         response = self.client.get(self.url)
         self.assertEqual(200, response.status_code)
         expected_todo = TodoSerializer(self.todo).data
         self.assertEqual(response.data, expected_todo)
-
+    
     def test_delete_todo(self):
         response = self.client.delete(self.url)
         self.assertEqual(204, response.status_code)

@@ -3,7 +3,7 @@ from django.urls import path, include
 
 
 api_urls = [
-    path('todos/', include('todos.urls')),
+    path('', include('todos.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls')),
 ]
